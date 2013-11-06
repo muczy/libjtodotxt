@@ -12,7 +12,7 @@ public class TodoTxtFile {
 	private final List<String> contexts;
 	private final List<String> projects;
 
-	public TodoTxtFile(String todoTxtFileContent) throws IOException,
+	public TodoTxtFile(final String todoTxtFileContent) throws IOException,
 			ParseException {
 		tasks = new ArrayList<Task>();
 		contexts = new ArrayList<String>();
@@ -21,20 +21,42 @@ public class TodoTxtFile {
 		parseTasks(todoTxtFileContent);
 	}
 
-	private void parseTasks(String todoTxtFileContent) throws IOException,
-			ParseException {
+	private void parseTasks(final String todoTxtFileContent)
+			throws IOException, ParseException {
 		final BufferedReader bufReader = new BufferedReader(new StringReader(
 				todoTxtFileContent));
 
 		String line = null;
 		while ((line = bufReader.readLine()) != null) {
-			tasks.add(new Task(line));
+			addTask(line);
 		}
 
 		bufReader.close();
 	}
 
-	public void addTask(String line) throws ParseException {
-		tasks.add(new Task(line));
+	public void addTask(final String line) throws ParseException {
+		final Task newTask = new Task(line);
+
+		tasks.add(newTask);
+
+		for (final String context : newTask.getContexts()) {
+			if (!contexts.contains(context)) {
+				contexts.add(context);
+			}
+		}
+
+		for (final String project : newTask.getProjects()) {
+			if (!projects.contains(project)) {
+				projects.add(project);
+			}
+		}
+	}
+
+	public List<String> getProjects() {
+		return projects;
+	}
+
+	public List<String> getContexts() {
+		return contexts;
 	}
 }
