@@ -82,4 +82,48 @@ public class TodoTxtFileTest {
 
 		assertEquals(expectedContexts, testTodoTxtFile.getContexts());
 	}
+
+	@Test
+	public void testGetTasksForProject() throws IOException, ParseException {
+		final List<String> expectedTasks = new LinkedList<String>();
+		expectedTasks
+				.add("Schedule Goodwill pickup @mobile +GarageSale @phone_ +Meatballs");
+		expectedTasks
+				.add("Post signs around the @phone3 neighborhood +GarageSale");
+		final StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder
+				.append("Schedule Goodwill pickup @mobile +GarageSale @phone_ +Meatballs")
+				.append(LINE_SEPARATOR)
+				.append("Post signs around the @phone3 neighborhood +GarageSale3")
+				.append(LINE_SEPARATOR)
+				.append("Post signs around the @phone3 neighborhood +GarageSale")
+				.append(LINE_SEPARATOR);
+		final TodoTxtFile testTodoTxtFile = new TodoTxtFile(
+				stringBuilder.toString());
+
+		assertEquals(expectedTasks,
+				testTodoTxtFile.getTasksForProject("GarageSale"));
+	}
+
+	@Test
+	public void testGetTasksForContext() throws IOException, ParseException {
+		final List<String> expectedTasks = new LinkedList<String>();
+		expectedTasks
+				.add("Post signs around the @phone3 neighborhood +GarageSale3");
+		expectedTasks
+				.add("Post signs around the @phone3 neighborhood +GarageSale");
+		final StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder
+				.append("Schedule Goodwill pickup @mobile +GarageSale @phone_ +Meatballs")
+				.append(LINE_SEPARATOR)
+				.append("Post signs around the @phone3 neighborhood +GarageSale3")
+				.append(LINE_SEPARATOR)
+				.append("Post signs around the @phone3 neighborhood +GarageSale")
+				.append(LINE_SEPARATOR);
+		final TodoTxtFile testTodoTxtFile = new TodoTxtFile(
+				stringBuilder.toString());
+
+		assertEquals(expectedTasks,
+				testTodoTxtFile.getTasksForContext("phone3"));
+	}
 }

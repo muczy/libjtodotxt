@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class TodoTxtFile {
@@ -58,5 +59,29 @@ public class TodoTxtFile {
 
 	public List<String> getContexts() {
 		return contexts;
+	}
+
+	public List<String> getTasksForProject(final String project) {
+		final List<String> foundTasks = new LinkedList<String>();
+
+		for (final Task task : tasks) {
+			if (task.getProjects().contains(project)) {
+				foundTasks.add(task.getLine());
+			}
+		}
+
+		return foundTasks;
+	}
+
+	public List<String> getTasksForContext(final String context) {
+		final List<String> foundTasks = new LinkedList<String>();
+
+		for (final Task task : tasks) {
+			if (task.getContexts().contains(context)) {
+				foundTasks.add(task.getLine());
+			}
+		}
+
+		return foundTasks;
 	}
 }
