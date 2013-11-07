@@ -24,15 +24,15 @@ public class TodoTxtFile {
 
 	private void parseTasks(final String todoTxtFileContent)
 			throws IOException, ParseException {
-		final BufferedReader bufReader = new BufferedReader(new StringReader(
-				todoTxtFileContent));
+		final BufferedReader contentReader = new BufferedReader(
+				new StringReader(todoTxtFileContent));
 
 		String line = null;
-		while ((line = bufReader.readLine()) != null) {
+		while ((line = contentReader.readLine()) != null) {
 			addTask(line);
 		}
 
-		bufReader.close();
+		contentReader.close();
 	}
 
 	public void addTask(final String line) throws ParseException {
@@ -49,6 +49,15 @@ public class TodoTxtFile {
 		for (final String project : newTask.getProjects()) {
 			if (!projects.contains(project)) {
 				projects.add(project);
+			}
+		}
+	}
+
+	public void removeTask(final String line) {
+		for (final Task task : tasks) {
+			if (task.getLine().equals(line)) {
+				tasks.remove(task);
+				break;
 			}
 		}
 	}

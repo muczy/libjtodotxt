@@ -1,7 +1,7 @@
 /**
  * 
  */
-package libjtodotxt;
+package org.libjtodotxt;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;

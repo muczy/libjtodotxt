@@ -1,12 +1,10 @@
-package libjtodotxt;
+package org.libjtodotxt;
 
 import static org.junit.Assert.fail;
 
 import java.util.Random;
 
 import org.junit.Test;
-import org.libjtodotxt.ParseException;
-import org.libjtodotxt.Task;
 
 public class TaskPerformanceTest {
 	@Test
@@ -51,6 +49,6 @@ public class TaskPerformanceTest {
 
 		finalResult = finalResult / repeatTest;
 		System.out.println("\nFinal average result for " + repeatTest
-				+ " runs: " + finalResult);
+				+ " runs: " + finalResult + " ms");
 	}
 }

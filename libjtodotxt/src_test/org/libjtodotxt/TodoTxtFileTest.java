@@ -1,7 +1,7 @@
 /**
  * 
  */
-package libjtodotxt;
+package org.libjtodotxt;
 
 import static org.junit.Assert.assertEquals;
 
@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.libjtodotxt.ParseException;
+import org.libjtodotxt.Task;
 import org.libjtodotxt.TodoTxtFile;
 
 /**
@@ -43,6 +44,25 @@ public class TodoTxtFileTest {
 		final TodoTxtFile testTodoTxtFile = new TodoTxtFile("");
 		testTodoTxtFile
 				.addTask("Schedule Goodwill pickup @mobile +GarageSale @phone_ +Meatballs");
+	}
+
+	@Test
+	public void testRemoveTask() throws IOException, ParseException {
+		final Task testTask = new Task(
+				"Post signs around the @CUSTOMCONTEXT neighborhood +GarageSale2");
+
+		final StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder
+				.append("Schedule Goodwill pickup @mobile +GarageSale @phone_ +Meatballs")
+				.append(LINE_SEPARATOR).append(testTask.getLine())
+				.append(LINE_SEPARATOR);
+		final TodoTxtFile testTodoTxtFile = new TodoTxtFile(
+				stringBuilder.toString());
+
+		testTodoTxtFile.removeTask(testTask.getLine());
+
+		assertEquals(0, testTodoTxtFile.getTasksForContext("CUSTOMCONTEXT")
+				.size());
 	}
 
 	@Test
