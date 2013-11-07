@@ -181,4 +181,9 @@ public class Task {
 		return projects;
 	}
 
+	@Override
+	public boolean equals(final Object obj) {
+		return (obj instanceof Task && getLine().equals(((Task) obj).getLine()));
+	}
+
 }

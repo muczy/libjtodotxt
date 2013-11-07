@@ -93,4 +93,19 @@ public class TodoTxtFile {
 
 		return foundTasks;
 	}
+
+	public List<Task> getTasks() {
+		final List<Task> clone = new LinkedList<Task>();
+
+		for (final Task task : tasks) {
+			try {
+				clone.add(new Task(task.getLine()));
+			} catch (final ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		return clone;
+	}
 }

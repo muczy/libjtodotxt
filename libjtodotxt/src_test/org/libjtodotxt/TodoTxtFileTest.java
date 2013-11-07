@@ -10,9 +10,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.Test;
-import org.libjtodotxt.ParseException;
-import org.libjtodotxt.Task;
-import org.libjtodotxt.TodoTxtFile;
 
 /**
  * @author muczy
@@ -48,21 +45,20 @@ public class TodoTxtFileTest {
 
 	@Test
 	public void testRemoveTask() throws IOException, ParseException {
-		final Task testTask = new Task(
-				"Post signs around the @CUSTOMCONTEXT neighborhood +GarageSale2");
+		final Task testTaskToBeDeleted = new Task(
+				"Post signs around the @CONTEXT neighborhood +GarageSale2");
+		final Task testTaskToRemain = new Task(
+				"Schedule Goodwill pickup @mobile +GarageSale @phone_ +Meatballs");
 
 		final StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder
-				.append("Schedule Goodwill pickup @mobile +GarageSale @phone_ +Meatballs")
-				.append(LINE_SEPARATOR).append(testTask.getLine())
-				.append(LINE_SEPARATOR);
+		stringBuilder.append(testTaskToRemain.getLine()).append(LINE_SEPARATOR)
+				.append(testTaskToBeDeleted.getLine()).append(LINE_SEPARATOR);
 		final TodoTxtFile testTodoTxtFile = new TodoTxtFile(
 				stringBuilder.toString());
 
-		testTodoTxtFile.removeTask(testTask.getLine());
+		testTodoTxtFile.removeTask(testTaskToBeDeleted.getLine());
 
-		assertEquals(0, testTodoTxtFile.getTasksForContext("CUSTOMCONTEXT")
-				.size());
+		assertEquals(testTaskToRemain, testTodoTxtFile.getTasks().get(0));
 	}
 
 	@Test
@@ -145,5 +141,25 @@ public class TodoTxtFileTest {
 
 		assertEquals(expectedTasks,
 				testTodoTxtFile.getTasksForContext("phone3"));
+	}
+
+	@Test
+	public void testGetTasks() throws IOException, ParseException {
+		final Task testTask1 = new Task(
+				"Post signs around the @CONTEXT neighborhood +GarageSale2");
+		final Task testTask2 = new Task(
+				"Schedule Goodwill pickup @mobile +GarageSale @phone_ +Meatballs");
+
+		final List<Task> expectedTasks = new LinkedList<>();
+		expectedTasks.add(testTask1);
+		expectedTasks.add(testTask2);
+
+		final StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(testTask2.getLine()).append(LINE_SEPARATOR)
+				.append(testTask1.getLine()).append(LINE_SEPARATOR);
+		final TodoTxtFile testTodoTxtFile = new TodoTxtFile(
+				stringBuilder.toString());
+
+		assertEquals(expectedTasks, testTodoTxtFile.getTasks());
 	}
 }

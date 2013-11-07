@@ -8,13 +8,12 @@ import static org.junit.Assert.fail;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.Test;
-import org.libjtodotxt.ParseException;
-import org.libjtodotxt.Task;
 
 /**
  * @author evoavpe0
@@ -252,6 +251,35 @@ public class TaskTest {
 	public void negativeTestIsComplete() throws ParseException {
 		final Task testTask = new Task("x2011-03-03 Call Mom");
 		assertEquals(false, testTask.isComplete());
+	}
+
+	@Test
+	public void testEquals() throws ParseException {
+		final String taskLine = "2011-03-03 Call Mom @phone +everyday";
+
+		final Task testTask = new Task(taskLine);
+		final Task equalTestTask = new Task(taskLine);
+
+		assertEquals(true, testTask.equals(equalTestTask));
+	}
+
+	@Test
+	public void negativeTestEquals() throws ParseException {
+		final String taskLine = "2011-03-03 Call Mom @phone +everyday";
+
+		final Task testTask = new Task(taskLine);
+		final Task equalTestTask = new Task(taskLine + " NOT EQUAL");
+
+		assertEquals(false, testTask.equals(equalTestTask));
+	}
+
+	@Test
+	public void negativeNotTaskTestEquals() throws ParseException {
+		final String taskLine = "2011-03-03 Call Mom @phone +everyday";
+
+		final Task testTask = new Task(taskLine);
+
+		assertEquals(false, testTask.equals(new ArrayList<>()));
 	}
 
 }
