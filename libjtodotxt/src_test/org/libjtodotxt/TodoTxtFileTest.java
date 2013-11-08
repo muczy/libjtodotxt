@@ -155,8 +155,8 @@ public class TodoTxtFileTest {
 		expectedTasks.add(testTask2);
 
 		final StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(testTask2.getLine()).append(LINE_SEPARATOR)
-				.append(testTask1.getLine()).append(LINE_SEPARATOR);
+		stringBuilder.append(testTask1.getLine()).append(LINE_SEPARATOR)
+				.append(testTask2.getLine()).append(LINE_SEPARATOR);
 		final TodoTxtFile testTodoTxtFile = new TodoTxtFile(
 				stringBuilder.toString());
 
