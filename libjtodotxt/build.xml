@@ -22,6 +22,8 @@
 		<tstamp />
 		<!-- Create the build directory structure used by compile -->
 		<mkdir dir="${build}" />
+		<!-- Unit tests report directories -->
+		<mkdir dir="${tests.reports}"/>
 	</target>
 
 	<target name="compile" depends="init" description="compile the source ">
@@ -46,6 +48,7 @@
 		<!-- Delete the ${build} and ${dist} directory trees -->
 		<delete dir="${build}" />
 		<delete dir="${dist}" />
+		<delete dir="${tests.reports}" />
 	</target>
 
 	<target name="run_unit_tests" depends="compile_test"
