@@ -8,6 +8,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 import org.junit.Test;
 
@@ -45,9 +46,9 @@ public class TodoTxtFileTest {
 
 	@Test
 	public void testRemoveTask() throws IOException, ParseException {
-		final Task testTaskToBeDeleted = new Task(
-				"Post signs around the @CONTEXT neighborhood +GarageSale2");
 		final Task testTaskToRemain = new Task(
+				"Post signs around the @CONTEXT neighborhood +GarageSale2");
+		final Task testTaskToBeDeleted = new Task(
 				"Schedule Goodwill pickup @mobile +GarageSale @phone_ +Meatballs");
 
 		final StringBuilder stringBuilder = new StringBuilder();
@@ -59,6 +60,29 @@ public class TodoTxtFileTest {
 		testTodoTxtFile.removeTask(testTaskToBeDeleted.getLine());
 
 		assertEquals(testTaskToRemain, testTodoTxtFile.getTasks().get(0));
+	}
+	
+	@Test
+	public void negativeTestRemoveTask() throws IOException, ParseException {
+		List<Task> tasksToRemain = new LinkedList<Task>();
+		
+		final Task testTask1 = new Task(
+				"Post signs around the @CONTEXT neighborhood +GarageSale2");
+		final Task testTask2 = new Task(
+				"Schedule Goodwill pickup @mobile +GarageSale @phone_ +Meatballs");
+		
+		tasksToRemain.add(testTask1);
+		tasksToRemain.add(testTask2);
+
+		final StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(testTask1.getLine()).append(LINE_SEPARATOR)
+				.append(testTask2.getLine()).append(LINE_SEPARATOR);
+		final TodoTxtFile testTodoTxtFile = new TodoTxtFile(
+				stringBuilder.toString());
+
+		testTodoTxtFile.removeTask(String.valueOf(new Random().nextInt()));
+
+		assertEquals(tasksToRemain, testTodoTxtFile.getTasks());
 	}
 
 	@Test
