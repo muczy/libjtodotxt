@@ -29,7 +29,7 @@
 		<javac includeantruntime="false" srcdir="${src}" destdir="${build}" />
 	</target>
 
-	<target name="compile_test" depends="init" description="compile the source ">
+	<target name="compile_test" depends="compile" description="compile the source ">
 		<!-- Compile the java code from ${src} into ${build} -->
 		<javac includeantruntime="false" srcdir="${src_test}" destdir="${build}">
 			<classpath refid="junit.class.path" />
