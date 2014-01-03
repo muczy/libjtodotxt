@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.libjtodotxt;
 
 import static org.junit.Assert.assertEquals;
@@ -12,10 +9,6 @@ import java.util.Random;
 
 import org.junit.Test;
 
-/**
- * @author muczy
- * 
- */
 public class TodoTxtFileTest {
 
 	private static String LINE_SEPARATOR = System.getProperty("line.separator");

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.libjtodotxt;
 
 import static org.junit.Assert.assertEquals;
@@ -15,10 +12,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-/**
- * @author evoavpe0
- * 
- */
 public class TaskTest {
 
 	private static char DEFAULT_PRIORITY = '\u0000';
