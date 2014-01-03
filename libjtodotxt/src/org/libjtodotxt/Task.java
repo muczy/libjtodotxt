@@ -30,12 +30,12 @@ public class Task {
 	private List<String> contexts;
 	private List<String> projects;
 
-	public Task(final String line) throws ParseException {
+	public Task(String line) throws ParseException {
 		this.content = line;
 		parseTask(line);
 	}
 
-	private void parseTask(final String line) throws ParseException {
+	private void parseTask(String line) throws ParseException {
 		complete = parseComplete(line);
 		priority = parsePriority(line);
 		creationDate = parseCreationDate(line);
@@ -44,10 +44,10 @@ public class Task {
 		projects = parseProjects(line);
 	}
 
-	private boolean parseComplete(final String line) {
+	private boolean parseComplete(String line) {
 		boolean parsedComplete = false;
 
-		final Matcher completeMatcher = COMPLETE_PATTERN.matcher(line);
+		Matcher completeMatcher = COMPLETE_PATTERN.matcher(line);
 
 		if (completeMatcher.find()) {
 			parsedComplete = true;
@@ -56,15 +56,15 @@ public class Task {
 		return parsedComplete;
 	}
 
-	private char parsePriority(final String line) throws ParseException {
+	private char parsePriority(String line) throws ParseException {
 		char parsedPriority = '\u0000';
 
-		final Matcher priorityMatcher = PRIORITY_PATTERN.matcher(line);
+		Matcher priorityMatcher = PRIORITY_PATTERN.matcher(line);
 
 		if (priorityMatcher.find()) {
 			try {
 				parsedPriority = priorityMatcher.group(1).charAt(0);
-			} catch (final IndexOutOfBoundsException e) {
+			} catch (IndexOutOfBoundsException e) {
 				throw new ParseException(
 						"Could not parse correct priority from task line!", e);
 			}
@@ -73,20 +73,20 @@ public class Task {
 		return parsedPriority;
 	}
 
-	private Date parseCreationDate(final String line) throws ParseException {
+	private Date parseCreationDate(String line) throws ParseException {
 		Date parsedCreationDate = null;
 
-		final Matcher creationDateMatcher = CREATION_DATE_PATTERN.matcher(line);
+		Matcher creationDateMatcher = CREATION_DATE_PATTERN.matcher(line);
 
 		if (creationDateMatcher.find()) {
-			final DateFormat creationDateFormat = new SimpleDateFormat(
+			DateFormat creationDateFormat = new SimpleDateFormat(
 					Task.DATE_FORMAT);
 
 			try {
 				parsedCreationDate = creationDateFormat
 						.parse(creationDateMatcher.group(creationDateMatcher
 								.groupCount()));
-			} catch (final java.text.ParseException e) {
+			} catch (java.text.ParseException e) {
 				throw new ParseException(
 						"Could not parse correct creation date from task line!",
 						e);
@@ -96,21 +96,21 @@ public class Task {
 		return parsedCreationDate;
 	}
 
-	private Date parseCompletionDate(final String line) throws ParseException {
+	private Date parseCompletionDate(String line) throws ParseException {
 		Date parsedCompletionDate = null;
 
-		final Matcher completionDateMatcher = COMPLETION_DATE_PATTERN
+		Matcher completionDateMatcher = COMPLETION_DATE_PATTERN
 				.matcher(line);
 
 		if (completionDateMatcher.find()) {
-			final DateFormat creationDateFormat = new SimpleDateFormat(
+			DateFormat creationDateFormat = new SimpleDateFormat(
 					Task.DATE_FORMAT);
 
 			try {
 				parsedCompletionDate = creationDateFormat
 						.parse(completionDateMatcher
 								.group(completionDateMatcher.groupCount()));
-			} catch (final java.text.ParseException e) {
+			} catch (java.text.ParseException e) {
 				throw new ParseException(
 						"Could not parse correct completion date from task line!",
 						e);
@@ -120,10 +120,10 @@ public class Task {
 		return parsedCompletionDate;
 	}
 
-	private List<String> parseContexts(final String line) {
-		final List<String> parsedContexts = new LinkedList<String>();
+	private List<String> parseContexts(String line) {
+		List<String> parsedContexts = new LinkedList<String>();
 
-		final Matcher contextMatcher = CONTEXT_PATTERN.matcher(line);
+		Matcher contextMatcher = CONTEXT_PATTERN.matcher(line);
 
 		while (contextMatcher.find()) {
 			for (int i = 1; i < contextMatcher.groupCount(); i++) {
@@ -134,10 +134,10 @@ public class Task {
 		return parsedContexts;
 	}
 
-	private List<String> parseProjects(final String line) {
-		final List<String> parsedProjects = new LinkedList<String>();
+	private List<String> parseProjects(String line) {
+		List<String> parsedProjects = new LinkedList<String>();
 
-		final Matcher projectMatcher = PROJECT_PATTERN.matcher(line);
+		Matcher projectMatcher = PROJECT_PATTERN.matcher(line);
 
 		while (projectMatcher.find()) {
 			for (int i = 1; i < projectMatcher.groupCount(); i++) {
@@ -168,7 +168,7 @@ public class Task {
 		return content;
 	}
 
-	public void setLine(final String line) throws ParseException {
+	public void setLine(String line) throws ParseException {
 		this.content = line;
 		parseTask(line);
 	}
@@ -182,7 +182,7 @@ public class Task {
 	}
 
 	@Override
-	public boolean equals(final Object obj) {
+	public boolean equals(Object obj) {
 		return (obj instanceof Task && getLine().equals(((Task) obj).getLine()));
 	}
 

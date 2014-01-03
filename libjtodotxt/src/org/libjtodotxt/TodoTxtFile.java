@@ -9,11 +9,11 @@ import java.util.List;
 
 public class TodoTxtFile {
 
-	private final List<Task> tasks;
-	private final List<String> contexts;
-	private final List<String> projects;
+	private List<Task> tasks;
+	private List<String> contexts;
+	private List<String> projects;
 
-	public TodoTxtFile(final String todoTxtFileContent) throws IOException,
+	public TodoTxtFile(String todoTxtFileContent) throws IOException,
 			ParseException {
 		tasks = new ArrayList<Task>();
 		contexts = new ArrayList<String>();
@@ -22,9 +22,9 @@ public class TodoTxtFile {
 		parseTasks(todoTxtFileContent);
 	}
 
-	private void parseTasks(final String todoTxtFileContent)
+	private void parseTasks(String todoTxtFileContent)
 			throws IOException, ParseException {
-		final BufferedReader contentReader = new BufferedReader(
+		BufferedReader contentReader = new BufferedReader(
 				new StringReader(todoTxtFileContent));
 
 		String line = null;
@@ -35,26 +35,26 @@ public class TodoTxtFile {
 		contentReader.close();
 	}
 
-	public void addTask(final String line) throws ParseException {
-		final Task newTask = new Task(line);
+	public void addTask(String line) throws ParseException {
+		Task newTask = new Task(line);
 
 		tasks.add(newTask);
 
-		for (final String context : newTask.getContexts()) {
+		for (String context : newTask.getContexts()) {
 			if (!contexts.contains(context)) {
 				contexts.add(context);
 			}
 		}
 
-		for (final String project : newTask.getProjects()) {
+		for (String project : newTask.getProjects()) {
 			if (!projects.contains(project)) {
 				projects.add(project);
 			}
 		}
 	}
 
-	public void removeTask(final String line) {
-		for (final Task task : tasks) {
+	public void removeTask(String line) {
+		for (Task task : tasks) {
 			if (task.getLine().equals(line)) {
 				tasks.remove(task);
 				break;
@@ -70,10 +70,10 @@ public class TodoTxtFile {
 		return contexts;
 	}
 
-	public List<String> getTasksForProject(final String project) {
-		final List<String> foundTasks = new LinkedList<String>();
+	public List<String> getTasksForProject(String project) {
+		List<String> foundTasks = new LinkedList<String>();
 
-		for (final Task task : tasks) {
+		for (Task task : tasks) {
 			if (task.getProjects().contains(project)) {
 				foundTasks.add(task.getLine());
 			}
@@ -82,10 +82,10 @@ public class TodoTxtFile {
 		return foundTasks;
 	}
 
-	public List<String> getTasksForContext(final String context) {
-		final List<String> foundTasks = new LinkedList<String>();
+	public List<String> getTasksForContext(String context) {
+		List<String> foundTasks = new LinkedList<String>();
 
-		for (final Task task : tasks) {
+		for (Task task : tasks) {
 			if (task.getContexts().contains(context)) {
 				foundTasks.add(task.getLine());
 			}
@@ -95,14 +95,13 @@ public class TodoTxtFile {
 	}
 
 	public List<Task> getTasks() {
-		final List<Task> clone = new LinkedList<Task>();
+		List<Task> clone = new LinkedList<Task>();
 
-		for (final Task task : tasks) {
+		for (Task task : tasks) {
 			try {
 				clone.add(new Task(task.getLine()));
-			} catch (final ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (ParseException shouldNeverHappenException) {
+				throw new RuntimeException(shouldNeverHappenException);
 			}
 		}
 

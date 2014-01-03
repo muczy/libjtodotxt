@@ -9,15 +9,15 @@ import org.junit.Test;
 public class TaskPerformanceTest {
 	@Test
 	public void testTaskParse() {
-		final int repeatTest = 5;
-		final int numberOfTasks = 1000000;
+		int repeatTest = 5;
+		int numberOfTasks = 1000000;
 
-		final Random random = new Random();
-		final long[] results = new long[repeatTest];
+		Random random = new Random();
+		long[] results = new long[repeatTest];
 
 		for (int j = 0; j < repeatTest; j++) {
 
-			final String[] testData = new String[numberOfTasks];
+			String[] testData = new String[numberOfTasks];
 
 			for (int i = 0; i < numberOfTasks; i++) {
 				testData[i] = new StringBuilder("Test task @")
@@ -25,17 +25,17 @@ public class TaskPerformanceTest {
 						.append(random.nextInt(10000)).toString();
 			}
 
-			final long start = System.currentTimeMillis();
+			long start = System.currentTimeMillis();
 
 			for (int i = 0; i < numberOfTasks; i++) {
 				try {
 					new Task(testData[i]);
-				} catch (final ParseException e) {
+				} catch (ParseException e) {
 					fail(e.getLocalizedMessage());
 				}
 			}
 
-			final long result = (System.currentTimeMillis() - start);
+			long result = (System.currentTimeMillis() - start);
 			System.out.println("Total time for " + numberOfTasks + " tasks: "
 					+ result + " ms");
 
@@ -48,7 +48,7 @@ public class TaskPerformanceTest {
 		}
 
 		finalResult = finalResult / repeatTest;
-		System.out.println("\nFinal average result for " + repeatTest
+		System.out.println("\naverage result for " + repeatTest
 				+ " runs: " + finalResult + " ms");
 	}
 }
