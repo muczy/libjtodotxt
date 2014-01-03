@@ -57,7 +57,7 @@
 			<classpath refid="junit.class.path" />
 			<formatter type="plain" />
 			<batchtest todir="${tests.reports}">
-				<fileset dir="${build}" includes="**/*Test.class" />
+				<fileset dir="${build}" includes="**/*Test.class" excludes="**/*PerformanceTest*.class" />
 			</batchtest>
 		</junit>
 	</target>
