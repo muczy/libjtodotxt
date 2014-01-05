@@ -30,6 +30,14 @@ public class Task {
 	private List<String> contexts;
 	private List<String> projects;
 
+	/**
+	 * Constructs a Task initialized to the contents of the specified string.
+	 * 
+	 * @param line
+	 *            the initial contents of the task.
+	 * @throws ParseException
+	 *             if the parsing of the string failed
+	 */
 	public Task(String line) throws ParseException {
 		this.content = line;
 		parseTask(line);
@@ -99,8 +107,7 @@ public class Task {
 	private Date parseCompletionDate(String line) throws ParseException {
 		Date parsedCompletionDate = null;
 
-		Matcher completionDateMatcher = COMPLETION_DATE_PATTERN
-				.matcher(line);
+		Matcher completionDateMatcher = COMPLETION_DATE_PATTERN.matcher(line);
 
 		if (completionDateMatcher.find()) {
 			DateFormat creationDateFormat = new SimpleDateFormat(
@@ -148,39 +155,86 @@ public class Task {
 		return parsedProjects;
 	}
 
+	/**
+	 * Returns true if this task is complete.
+	 * 
+	 * @return true if this task is complete
+	 */
 	public boolean isComplete() {
 		return complete;
 	}
 
+	/**
+	 * Returns the priority of this task.
+	 * 
+	 * @return the priority of this task
+	 */
 	public char getPriority() {
 		return priority;
 	}
 
+	/**
+	 * Returns the creation date of this task.
+	 * 
+	 * @return the creation date of this task.
+	 */
 	public Date getCreationDate() {
 		return creationDate;
 	}
 
+	/**
+	 * Returns the completion date of this task.
+	 * 
+	 * @return the completion date of this task.
+	 */
 	public Date getCompletionDate() {
 		return completionDate;
 	}
 
+	/**
+	 * Returns the string representing this task.
+	 * 
+	 * @return the string representing this task.
+	 */
 	public String getLine() {
 		return content;
 	}
 
+	/**
+	 * Initializes this task with a new line content.
+	 * 
+	 * @param line
+	 *            the new line content.
+	 * @throws ParseException
+	 *             if the parsing of the string failed
+	 */
 	public void setLine(String line) throws ParseException {
 		this.content = line;
 		parseTask(line);
 	}
 
+	/**
+	 * Returns the contexts of this task.
+	 * 
+	 * @return the contexts of this task
+	 */
 	public List<String> getContexts() {
 		return contexts;
 	}
 
+	/**
+	 * Returns the projects of this task.
+	 * 
+	 * @return the projects of this task
+	 */
 	public List<String> getProjects() {
 		return projects;
 	}
 
+	/**
+	 * Indicates whether some other object is "equal to" this task by comparing
+	 * the lines of the tasks.
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		return (obj instanceof Task && getLine().equals(((Task) obj).getLine()));

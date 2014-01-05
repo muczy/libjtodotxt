@@ -4,7 +4,7 @@
 	</description>
 
 	<!-- set global properties for this build -->
-	<property name="version" location="0.1" />
+	<property name="version" value="0.1_alpha" />
 	<property name="src" location="src" />
 	<property name="src_test" location="src_test" />
 	<property name="src_performance_test" location="src_performance_test" />
@@ -46,10 +46,10 @@
 		</javac>
 	</target>
 
-	<target name="dist" depends="compile" description="generate the distribution">
+	<target name="dist" depends="clean, compile" description="generate the distribution">
 
 		<!-- Put everything in ${build} into the libjtodotxt-${version}.jar file -->
-		<jar jarfile="${dist}/libjtodotxt.jar" basedir="${build}" />
+		<jar jarfile="${dist}/libjtodotxt-${version}.jar" basedir="${build}" />
 	</target>
 
 	<target name="clean" description="clean up">

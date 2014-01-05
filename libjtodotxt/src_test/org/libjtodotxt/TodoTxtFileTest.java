@@ -34,7 +34,8 @@ public class TodoTxtFileTest {
 	public void testAddTask() throws IOException, ParseException {
 		TodoTxtFile testTodoTxtFile = new TodoTxtFile("");
 		testTodoTxtFile
-				.addTask("Schedule Goodwill pickup @mobile +GarageSale @phone_ +Meatballs");
+				.addTask(new Task(
+						"Schedule Goodwill pickup @mobile +GarageSale @phone_ +Meatballs"));
 	}
 
 	@Test
@@ -47,33 +48,32 @@ public class TodoTxtFileTest {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(testTaskToRemain.getLine()).append(LINE_SEPARATOR)
 				.append(testTaskToBeDeleted.getLine()).append(LINE_SEPARATOR);
-		TodoTxtFile testTodoTxtFile = new TodoTxtFile(
-				stringBuilder.toString());
+		TodoTxtFile testTodoTxtFile = new TodoTxtFile(stringBuilder.toString());
 
-		testTodoTxtFile.removeTask(testTaskToBeDeleted.getLine());
+		testTodoTxtFile.removeTask(testTaskToBeDeleted);
 
 		assertEquals(testTaskToRemain, testTodoTxtFile.getTasks().get(0));
 	}
-	
+
 	@Test
 	public void negativeTestRemoveTask() throws IOException, ParseException {
 		List<Task> tasksToRemain = new LinkedList<Task>();
-		
+
 		Task testTask1 = new Task(
 				"Post signs around the @CONTEXT neighborhood +GarageSale2");
 		Task testTask2 = new Task(
 				"Schedule Goodwill pickup @mobile +GarageSale @phone_ +Meatballs");
-		
+
 		tasksToRemain.add(testTask1);
 		tasksToRemain.add(testTask2);
 
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(testTask1.getLine()).append(LINE_SEPARATOR)
 				.append(testTask2.getLine()).append(LINE_SEPARATOR);
-		TodoTxtFile testTodoTxtFile = new TodoTxtFile(
-				stringBuilder.toString());
+		TodoTxtFile testTodoTxtFile = new TodoTxtFile(stringBuilder.toString());
 
-		testTodoTxtFile.removeTask(String.valueOf(new Random().nextInt()));
+		testTodoTxtFile.removeTask(new Task(String.valueOf(new Random()
+				.nextInt())));
 
 		assertEquals(tasksToRemain, testTodoTxtFile.getTasks());
 	}
@@ -91,8 +91,7 @@ public class TodoTxtFileTest {
 				.append(LINE_SEPARATOR)
 				.append("Post signs around the @phone3 neighborhood +GarageSale +GarageSale2")
 				.append(LINE_SEPARATOR);
-		TodoTxtFile testTodoTxtFile = new TodoTxtFile(
-				stringBuilder.toString());
+		TodoTxtFile testTodoTxtFile = new TodoTxtFile(stringBuilder.toString());
 
 		assertEquals(expectedProjects, testTodoTxtFile.getProjects());
 	}
@@ -110,8 +109,7 @@ public class TodoTxtFileTest {
 				.append(LINE_SEPARATOR)
 				.append("Post signs around the @phone3 neighborhood @phone_ +GarageSale2")
 				.append(LINE_SEPARATOR);
-		TodoTxtFile testTodoTxtFile = new TodoTxtFile(
-				stringBuilder.toString());
+		TodoTxtFile testTodoTxtFile = new TodoTxtFile(stringBuilder.toString());
 
 		assertEquals(expectedContexts, testTodoTxtFile.getContexts());
 	}
@@ -131,8 +129,7 @@ public class TodoTxtFileTest {
 				.append(LINE_SEPARATOR)
 				.append("Post signs around the @phone3 neighborhood +GarageSale")
 				.append(LINE_SEPARATOR);
-		TodoTxtFile testTodoTxtFile = new TodoTxtFile(
-				stringBuilder.toString());
+		TodoTxtFile testTodoTxtFile = new TodoTxtFile(stringBuilder.toString());
 
 		assertEquals(expectedTasks,
 				testTodoTxtFile.getTasksForProject("GarageSale"));
@@ -153,8 +150,7 @@ public class TodoTxtFileTest {
 				.append(LINE_SEPARATOR)
 				.append("Post signs around the @phone3 neighborhood +GarageSale")
 				.append(LINE_SEPARATOR);
-		TodoTxtFile testTodoTxtFile = new TodoTxtFile(
-				stringBuilder.toString());
+		TodoTxtFile testTodoTxtFile = new TodoTxtFile(stringBuilder.toString());
 
 		assertEquals(expectedTasks,
 				testTodoTxtFile.getTasksForContext("phone3"));
@@ -174,8 +170,7 @@ public class TodoTxtFileTest {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(testTask1.getLine()).append(LINE_SEPARATOR)
 				.append(testTask2.getLine()).append(LINE_SEPARATOR);
-		TodoTxtFile testTodoTxtFile = new TodoTxtFile(
-				stringBuilder.toString());
+		TodoTxtFile testTodoTxtFile = new TodoTxtFile(stringBuilder.toString());
 
 		assertEquals(expectedTasks, testTodoTxtFile.getTasks());
 	}
