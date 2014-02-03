@@ -141,7 +141,7 @@ public class TodoTxtHandler {
 		List<String> lines = Utils.readFileContent(file);
 
 		try {
-			writer = new BufferedWriter(new FileWriter(file, true));
+			writer = new BufferedWriter(new FileWriter(file, false));
 
 			for (String line : lines) {
 				if (!line.trim().equals(task.getLine())) {
@@ -202,12 +202,12 @@ public class TodoTxtHandler {
 	 *            the project to get tasks for
 	 * @return the list of tasks
 	 */
-	public List<String> getTasksForProject(String project) {
-		List<String> foundTasks = new LinkedList<String>();
+	public List<Task> getTasksForProject(String project) {
+		List<Task> foundTasks = new LinkedList<Task>();
 
 		for (Task task : tasks) {
 			if (task.getProjects().contains(project)) {
-				foundTasks.add(task.getLine());
+				foundTasks.add(task);
 			}
 		}
 
@@ -221,12 +221,12 @@ public class TodoTxtHandler {
 	 *            the context to get tasks for
 	 * @return the list of tasks
 	 */
-	public List<String> getTasksForContext(String context) {
-		List<String> foundTasks = new LinkedList<String>();
+	public List<Task> getTasksForContext(String context) {
+		List<Task> foundTasks = new LinkedList<Task>();
 
 		for (Task task : tasks) {
 			if (task.getContexts().contains(context)) {
-				foundTasks.add(task.getLine());
+				foundTasks.add(task);
 			}
 		}
 
