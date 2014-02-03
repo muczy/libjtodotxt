@@ -1,9 +1,7 @@
 package org.libjtodotxt;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,6 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class TodoTxtHandler {
+
+	private final String newLine;
 
 	private File todoFile;
 	private File doneFile;
@@ -32,10 +32,15 @@ public class TodoTxtHandler {
 	 * @throws ParseException
 	 *             if the parsing of the string failed
 	 */
-	public TodoTxtHandler(File todoFile, File doneFile) throws IOException,
-			ParseException {
+	public TodoTxtHandler(File todoFile, File doneFile, String newLine)
+			throws IOException, ParseException {
+		Utils.checkForNullArgument(todoFile, "todoFile");
+		Utils.checkForNullArgument(doneFile, "doneFile");
+		Utils.checkForNullArgument(newLine, "newLine");
+
 		this.todoFile = todoFile;
 		this.doneFile = doneFile;
+		this.newLine = newLine;
 
 		tasks = new ArrayList<Task>();
 		contexts = new ArrayList<String>();
@@ -45,23 +50,15 @@ public class TodoTxtHandler {
 	}
 
 	private void parseTasks() throws IOException, ParseException {
-		BufferedReader contentReader = null;
+		List<String> lines = Utils.readFileContent(todoFile);
 
-		try {
-			contentReader = new BufferedReader(new FileReader(todoFile));
+		for (String line : lines) {
+			Task task = new Task(line);
+			tasks.add(task);
 
-			String line = null;
-			while ((line = contentReader.readLine()) != null) {
-				addTask(new Task(line));
-			}
-		} catch (Exception e) {
-			throw e;
-		} finally {
-			if (contentReader != null) {
-				contentReader.close();
-			}
+			parseContexts(task);
+			parseProjects(task);
 		}
-
 	}
 
 	/**
@@ -73,19 +70,27 @@ public class TodoTxtHandler {
 	 *             if writing the task to file failed
 	 */
 	public void addTask(Task newTask) throws IOException {
+		Utils.checkForNullArgument(newTask, "newTask");
 		tasks.add(newTask);
 
 		addTaskToFile(newTask, todoFile);
 
-		for (String context : newTask.getContexts()) {
-			if (!contexts.contains(context)) {
-				contexts.add(context);
-			}
-		}
+		parseContexts(newTask);
+		parseProjects(newTask);
+	}
 
-		for (String project : newTask.getProjects()) {
+	private void parseProjects(Task task) {
+		for (String project : task.getProjects()) {
 			if (!projects.contains(project)) {
 				projects.add(project);
+			}
+		}
+	}
+
+	private void parseContexts(Task task) {
+		for (String context : task.getContexts()) {
+			if (!contexts.contains(context)) {
+				contexts.add(context);
 			}
 		}
 	}
@@ -96,6 +101,7 @@ public class TodoTxtHandler {
 		try {
 			writer = new BufferedWriter(new FileWriter(file, true));
 			writer.write(task.getLine());
+			writer.write(newLine);
 		} catch (IOException e) {
 			throw e;
 		} finally {
@@ -108,11 +114,67 @@ public class TodoTxtHandler {
 	/**
 	 * Removes the specified task from the todo.txt file.
 	 * 
-	 * @param task
+	 * @param taskToRemove
 	 *            the task be to removed
+	 * @throws IOException
+	 *             if the removal of task from the file failed
 	 */
-	public void removeTask(Task task) {
-		tasks.remove(task);
+	public void removeTask(Task taskToRemove) throws IOException {
+		Utils.checkForNullArgument(taskToRemove, "task");
+		checkForExistingTask(taskToRemove);
+
+		tasks.remove(taskToRemove);
+
+		removeTaskFromFile(taskToRemove, todoFile);
+	}
+
+	private void checkForExistingTask(Task task) {
+		if (!tasks.contains(task)) {
+			throw new IllegalArgumentException("Task \"" + task.getLine()
+					+ "\" does not exist!");
+		}
+	}
+
+	private void removeTaskFromFile(Task task, File file) throws IOException {
+		BufferedWriter writer = null;
+
+		List<String> lines = Utils.readFileContent(file);
+
+		try {
+			writer = new BufferedWriter(new FileWriter(file, true));
+
+			for (String line : lines) {
+				if (!line.trim().equals(task.getLine())) {
+					writer.write(task.getLine());
+					writer.write(newLine);
+				}
+			}
+		} catch (IOException e) {
+			throw e;
+		} finally {
+			if (writer != null) {
+				writer.close();
+			}
+		}
+	}
+
+	/**
+	 * Archives the specified task by moving it from the todo.txt to the
+	 * done.txt file .
+	 * 
+	 * @param taskToArchive
+	 *            the task to be archived
+	 * @throws IOException
+	 *             if the moving of the task failed
+	 */
+	public void archiveTask(Task taskToArchive) throws IOException {
+		Utils.checkForNullArgument(taskToArchive, "task");
+		checkForExistingTask(taskToArchive);
+
+		tasks.remove(taskToArchive);
+
+		removeTaskFromFile(taskToArchive, todoFile);
+		addTaskToFile(taskToArchive, doneFile);
 	}
 
 	/**
