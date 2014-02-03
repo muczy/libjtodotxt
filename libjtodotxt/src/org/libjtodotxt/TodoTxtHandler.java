@@ -144,8 +144,8 @@ public class TodoTxtHandler {
 			writer = new BufferedWriter(new FileWriter(file, false));
 
 			for (String line : lines) {
-				if (!line.trim().equals(task.getLine())) {
-					writer.write(task.getLine());
+				if (!line.equals(task.getLine())) {
+					writer.write(line);
 					writer.write(newLine);
 				}
 			}
@@ -168,7 +168,7 @@ public class TodoTxtHandler {
 	 *             if the moving of the task failed
 	 */
 	public void archiveTask(Task taskToArchive) throws IOException {
-		Utils.checkForNullArgument(taskToArchive, "task");
+		Utils.checkForNullArgument(taskToArchive, "taskToArchive");
 		checkForExistingTask(taskToArchive);
 
 		tasks.remove(taskToArchive);

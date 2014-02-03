@@ -6,7 +6,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -254,19 +253,7 @@ public class TodoTxtHandlerTest {
 		TodoTxtHandler handler = new TodoTxtHandler(todoFile, doneFile,
 				LINE_SEPARATOR);
 
-		System.out.println(Arrays.toString(Utils.readFileContent(todoFile)
-				.toArray()));
-		System.out.println("#");
-		System.out.println(Arrays.toString(Utils.readFileContent(doneFile)
-				.toArray()));
-		System.out.println("#####");
 		handler.archiveTask(taskToBeArchived);
-		System.out.println(Arrays.toString(Utils.readFileContent(todoFile)
-				.toArray()));
-		System.out.println("#");
-		System.out.println(Arrays.toString(Utils.readFileContent(doneFile)
-				.toArray()));
-		System.out.println("#####");
 
 		assertEquals(tasks.size() - 1, handler.getTasks().size());
 		assertEquals(taskToRemain, handler.getTasks().get(0));
