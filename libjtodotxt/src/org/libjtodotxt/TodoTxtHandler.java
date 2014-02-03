@@ -90,12 +90,12 @@ public class TodoTxtHandler {
 		}
 	}
 
-	private void addTaskToFile(Task newTask, File file) throws IOException {
+	private void addTaskToFile(Task task, File file) throws IOException {
 		BufferedWriter writer = null;
 
 		try {
 			writer = new BufferedWriter(new FileWriter(file, true));
-			writer.write(newTask.getLine());
+			writer.write(task.getLine());
 		} catch (IOException e) {
 			throw e;
 		} finally {
