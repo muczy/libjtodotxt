@@ -55,10 +55,10 @@ public class TodoTxtHandler {
 		for (String line : lines) {
 			Task task = new Task(line);
 			tasks.add(task);
-
-			parseContexts();
-			parseProjects();
 		}
+
+		parseContexts();
+		parseProjects();
 	}
 
 	/**
