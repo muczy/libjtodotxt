@@ -56,8 +56,8 @@ public class TodoTxtHandler {
 			Task task = new Task(line);
 			tasks.add(task);
 
-			parseContexts(task);
-			parseProjects(task);
+			parseContexts();
+			parseProjects();
 		}
 	}
 
@@ -75,22 +75,30 @@ public class TodoTxtHandler {
 
 		addTaskToFile(newTask, todoFile);
 
-		parseContexts(newTask);
-		parseProjects(newTask);
+		parseContexts();
+		parseProjects();
 	}
 
-	private void parseProjects(Task task) {
-		for (String project : task.getProjects()) {
-			if (!projects.contains(project)) {
-				projects.add(project);
+	private void parseProjects() {
+		projects.clear();
+
+		for (Task task : tasks) {
+			for (String project : task.getProjects()) {
+				if (!projects.contains(project)) {
+					projects.add(project);
+				}
 			}
 		}
 	}
 
-	private void parseContexts(Task task) {
-		for (String context : task.getContexts()) {
-			if (!contexts.contains(context)) {
-				contexts.add(context);
+	private void parseContexts() {
+		contexts.clear();
+
+		for (Task task : tasks) {
+			for (String context : task.getContexts()) {
+				if (!contexts.contains(context)) {
+					contexts.add(context);
+				}
 			}
 		}
 	}
@@ -126,6 +134,9 @@ public class TodoTxtHandler {
 		tasks.remove(taskToRemove);
 
 		removeTaskFromFile(taskToRemove, todoFile);
+
+		parseContexts();
+		parseProjects();
 	}
 
 	private void checkForExistingTask(Task task) {
@@ -175,6 +186,9 @@ public class TodoTxtHandler {
 
 		removeTaskFromFile(taskToArchive, todoFile);
 		addTaskToFile(taskToArchive, doneFile);
+
+		parseContexts();
+		parseProjects();
 	}
 
 	/**

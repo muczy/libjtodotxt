@@ -155,9 +155,51 @@ public class TodoTxtHandlerTest {
 	}
 
 	@Test
+	public void getProjects_AfterTaskAdded() throws IOException, ParseException {
+		List<Task> tasks = new LinkedList<Task>();
+		Task testTask1 = new Task(
+				"Schedule Goodwill pickup @mobile +GarageSale @phone_ +Meatballs +GarageSale3");
+		Task testTask2 = new Task(
+				"Post signs around the @phone3 neighborhood @phone_ +GarageSale +GarageSale2");
+		Task testTask3 = new Task(
+				"Post signs around the @phone3 neighborhood @phone_ +GarageSale3 +GarageSale4");
+		tasks.add(testTask1);
+		tasks.add(testTask2);
+
+		File todoFile = tmpFolder.newFile();
+		writeTasksToFile(tasks, todoFile);
+		TodoTxtHandler handler = new TodoTxtHandler(todoFile,
+				tmpFolder.newFile(), LINE_SEPARATOR);
+
+		handler.addTask(testTask3);
+
+		assertEquals(true, handler.getProjects().contains("GarageSale"));
+		assertEquals(true, handler.getProjects().contains("GarageSale2"));
+		assertEquals(true, handler.getProjects().contains("GarageSale3"));
+		assertEquals(true, handler.getProjects().contains("GarageSale4"));
+	}
+
+	@Test
 	public void getProjects_AfterTaskRemoved() throws IOException,
 			ParseException {
+		List<Task> tasks = new LinkedList<Task>();
+		Task testTask1 = new Task(
+				"Schedule Goodwill pickup @mobile +GarageSale @phone_ +Meatballs +GarageSale3");
+		Task testTask2 = new Task(
+				"Post signs around the @phone3 neighborhood @phone_ +GarageSale +GarageSale2");
+		tasks.add(testTask1);
+		tasks.add(testTask2);
 
+		File todoFile = tmpFolder.newFile();
+		writeTasksToFile(tasks, todoFile);
+		TodoTxtHandler handler = new TodoTxtHandler(todoFile,
+				tmpFolder.newFile(), LINE_SEPARATOR);
+
+		handler.removeTask(testTask1);
+
+		assertEquals(true, handler.getProjects().contains("GarageSale"));
+		assertEquals(true, handler.getProjects().contains("GarageSale2"));
+		assertEquals(false, handler.getProjects().contains("GarageSale3"));
 	}
 
 	@Test
@@ -181,6 +223,52 @@ public class TodoTxtHandlerTest {
 				tmpFolder.newFile(), LINE_SEPARATOR);
 
 		assertEquals(expectedContexts, handler.getContexts());
+	}
+
+	@Test
+	public void getContexts_AfterTaskAdded() throws IOException, ParseException {
+		List<Task> tasks = new LinkedList<Task>();
+		Task testTask1 = new Task(
+				"Schedule Goodwill pickup @mobile +GarageSale @phone_ +Meatballs");
+		Task testTask2 = new Task(
+				"Post signs around the @phone3 neighborhood @phone_ +GarageSale2");
+		Task testTask3 = new Task(
+				"Post signs around the @phone5 neighborhood @phone_ +GarageSale2");
+		tasks.add(testTask1);
+		tasks.add(testTask2);
+
+		File todoFile = tmpFolder.newFile();
+		writeTasksToFile(tasks, todoFile);
+		TodoTxtHandler handler = new TodoTxtHandler(todoFile,
+				tmpFolder.newFile(), LINE_SEPARATOR);
+
+		handler.addTask(testTask3);
+		assertEquals(true, handler.getContexts().contains("phone3"));
+		assertEquals(true, handler.getContexts().contains("phone_"));
+		assertEquals(true, handler.getContexts().contains("mobile"));
+		assertEquals(true, handler.getContexts().contains("phone5"));
+	}
+
+	@Test
+	public void getContexts_AfterTaskRemoved() throws IOException,
+			ParseException {
+		List<Task> tasks = new LinkedList<Task>();
+		Task testTask1 = new Task(
+				"Schedule Goodwill pickup @mobile +GarageSale @phone_ +Meatballs");
+		Task testTask2 = new Task(
+				"Post signs around the @phone3 neighborhood @phone_ +GarageSale2");
+		tasks.add(testTask1);
+		tasks.add(testTask2);
+
+		File todoFile = tmpFolder.newFile();
+		writeTasksToFile(tasks, todoFile);
+		TodoTxtHandler handler = new TodoTxtHandler(todoFile,
+				tmpFolder.newFile(), LINE_SEPARATOR);
+
+		handler.removeTask(testTask1);
+		assertEquals(true, handler.getContexts().contains("phone3"));
+		assertEquals(true, handler.getContexts().contains("phone_"));
+		assertEquals(false, handler.getContexts().contains("mobile"));
 	}
 
 	@Test
