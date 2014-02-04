@@ -10,7 +10,7 @@ import java.util.List;
 
 public class TodoTxtHandler {
 
-	private final String newLine;
+	private final String lineSeparator;
 
 	private File todoFile;
 	private File doneFile;
@@ -32,15 +32,15 @@ public class TodoTxtHandler {
 	 * @throws ParseException
 	 *             if the parsing of the string failed
 	 */
-	public TodoTxtHandler(File todoFile, File doneFile, String newLine)
+	public TodoTxtHandler(File todoFile, File doneFile, String lineSeparator)
 			throws IOException, ParseException {
 		Utils.checkForNullArgument(todoFile, "todoFile");
 		Utils.checkForNullArgument(doneFile, "doneFile");
-		Utils.checkForNullArgument(newLine, "newLine");
+		Utils.checkForNullArgument(lineSeparator, "newLine");
 
 		this.todoFile = todoFile;
 		this.doneFile = doneFile;
-		this.newLine = newLine;
+		this.lineSeparator = lineSeparator;
 
 		tasks = new ArrayList<Task>();
 		contexts = new ArrayList<String>();
@@ -109,7 +109,7 @@ public class TodoTxtHandler {
 		try {
 			writer = new BufferedWriter(new FileWriter(file, true));
 			writer.write(task.getLine());
-			writer.write(newLine);
+			writer.write(lineSeparator);
 		} catch (IOException e) {
 			throw e;
 		} finally {
@@ -157,7 +157,7 @@ public class TodoTxtHandler {
 			for (String line : lines) {
 				if (!line.equals(task.getLine())) {
 					writer.write(line);
-					writer.write(newLine);
+					writer.write(lineSeparator);
 				}
 			}
 		} catch (IOException e) {
