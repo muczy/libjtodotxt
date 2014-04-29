@@ -8,6 +8,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Utils {
+	private Utils() {
+	}
+	
 	public static void checkForNullArgument(Object object, String name) {
 		if (object == null) {
 			throw new IllegalArgumentException(name + " is null!");
@@ -25,8 +28,6 @@ public class Utils {
 			while ((line = reader.readLine()) != null) {
 				result.add(line);
 			}
-		} catch (IOException e) {
-			throw e;
 		} finally {
 			if (reader != null) {
 				reader.close();

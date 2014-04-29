@@ -110,8 +110,6 @@ public class TodoTxtHandler {
 			writer = new BufferedWriter(new FileWriter(file, true));
 			writer.write(task.getLine());
 			writer.write(lineSeparator);
-		} catch (IOException e) {
-			throw e;
 		} finally {
 			if (writer != null) {
 				writer.close();
@@ -160,8 +158,6 @@ public class TodoTxtHandler {
 					writer.write(lineSeparator);
 				}
 			}
-		} catch (IOException e) {
-			throw e;
 		} finally {
 			if (writer != null) {
 				writer.close();

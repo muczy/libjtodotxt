@@ -89,7 +89,7 @@ public class TodoTxtHandlerTest {
 		assertEquals(testTask, handler.getTasks().get(0));
 		assertEquals(true, fileContainsTask(todoFile, testTask));
 	}
-
+	
 	@Test
 	public void removeTask() throws IOException, ParseException {
 		List<Task> tasks = new LinkedList<Task>();

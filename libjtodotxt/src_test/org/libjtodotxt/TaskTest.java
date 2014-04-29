@@ -168,7 +168,7 @@ public class TaskTest {
 
 		assertEquals(null, testTask.getCreationDate());
 	}
-
+	
 	@Test
 	public void testPriorityGetCreationDate() throws ParseException,
 			java.text.ParseException {
